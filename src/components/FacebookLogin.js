@@ -17,16 +17,15 @@ class FaceBookLogin extends Component {
 
     responseFacebook = (facebookResponse) => {
         console.log(facebookResponse);
+
         this.setState({
             username: facebookResponse.name,
-            email: facebookResponse.email,
             facebook_id: facebookResponse.id,
             imageURL: facebookResponse.picture.data.url
         }, () => {
             console.log(this.state);
             const {facebook_id,
                 username,
-                email,
                 imageURL} = this.state;
             axios.get(`${MAIN_PROXY_URL}/users?facebook_id=${facebook_id}`)
             .then(response => {
@@ -41,7 +40,7 @@ class FaceBookLogin extends Component {
                         this.props.userLogin(response);
                     })
                 } else {
-                    axios.post(`${MAIN_PROXY_URL}/users/signup`, {facebook_id, username, email,imageURL})
+                    axios.post(`${MAIN_PROXY_URL}/users/signup`, {facebook_id, username, imageURL})
                     .then(response => {
                         console.log("Signup");
                         console.log(response.data);
